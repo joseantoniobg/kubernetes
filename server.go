@@ -1,6 +1,10 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+	"os"
+	"fmt"
+)
 
 func main()  {
 		http.HandleFunc("/", Hello)
@@ -8,5 +12,8 @@ func main()  {
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<h1>HELLO WORLD!!!!</h1>"))
+	name := os.Getenv("NAME")
+	age := os.Getenv("AGE")
+
+  fmt.Fprintf(w, "Hello! I`m %s. I`m %s", name, age)
 }
