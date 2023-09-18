@@ -12,8 +12,8 @@ import (
 var startedAt = time.Now()
 
 func main()  {
-		http.HandleFunc("/healthz", Healthz)
-		http.HandleFunc("/healthz2", Healthz2)
+		http.HandleFunc("/healthz", Healthz3)
+		http.HandleFunc("/healthz2", Healthz3)
 		http.HandleFunc("/secret", Secret)
 		http.HandleFunc("/configmap", ConfigMap)
 		http.HandleFunc("/", Hello)
@@ -66,4 +66,16 @@ func Healthz2(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		w.Write([]byte("Ok!"))
 	}
+}
+
+func Healthz3(w http.ResponseWriter, r *http.Request) {
+  duration := time.Since(startedAt)
+
+  if duration.Seconds() < 10 {
+    w.WriteHeader(500)
+    w.Write([]byte(fmt.Sprintf("Duration: %v", duration.Seconds())))
+  } else {
+    w.WriteHeader(200)
+    w.Write([]byte("ok"))
+  }
 }
