@@ -6,7 +6,7 @@ metadata:
     app: mysql
 spec:
   serviceName: mysql-h
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: mysql
@@ -21,3 +21,16 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
+          volumeMounts:
+            - mountPath: /var/lib/musql
+              name: mysql-volume
+
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-volume
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
